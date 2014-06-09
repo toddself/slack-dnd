@@ -9,12 +9,13 @@ var port = 3000;
 var host = '127.0.0.1';
 var slackToken;
 var groupRestrict;
+var slackHost;
 
 function rollDie(max){
   return Math.floor(Math.random() * (max - 1 + 1)) + 1;
 }
 
-function startRollServer(port, ip, slackToken, groupRestrict){
+function startRollServer(port, ip, slackToken, slackHost, groupRestrict){
   var server = http.createServer(function(req, res){
     var parsed = url.parse(req.url, true);
     
@@ -54,7 +55,7 @@ function startRollServer(port, ip, slackToken, groupRestrict){
       console.log('sending to webhook', output);
       
       var post = https.request({
-        host: 'scripto.slack.com',
+        host: slackHost,
         path: '/services/hooks/incoming-webhook?token='+slackToken,
         method: 'POST',
         headers: {
@@ -86,11 +87,12 @@ if(!module.parent){
   host = argv.host || host;
   port = argv.port || port;
   groupRestrict = argv.group || groupRestrict;
+  slackHost = argv.slack || slackHost;
   slackToken = argv.token || slackToken;
 
-  if(typeof slackToken === 'undefined'){
-    throw new Error('You must supply a token for Slack');
+  if(typeof slackToken === 'undefined' || typeof slackHost === 'undefined'){
+    console.log('You need a slack token and a slack hostname to continue');
   }
 
-  startRollServer(port, host, slackToken, groupRestrict);
+  startRollServer(port, host, slackToken, slackHost, groupRestrict);
 }
