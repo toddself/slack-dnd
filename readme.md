@@ -27,6 +27,7 @@ slack-dnd --host [hostname || 127.0.0.1] --port [port || 3000] --token [Your Sla
   * Get your `token` from this page (this is what you'll use when you launch the server)
 
 Or if you like pictures: 
-![slash command](/blob/master/assets/slack-integration.png)
-![webhook](/blob/master/assets/slack-webhook.png)  
+![slash command](/assets/slack-integration.png)
+
+![webhook](/assets/slack-webhook.png)  
 
