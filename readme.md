@@ -16,6 +16,9 @@ slack-dnd --host [hostname || 127.0.0.1] --port [port || 3000] --token [Your Sla
 
 ## Slack set up
 
+If you add a custom emoji for the `:dm:` command, it'll use that as the avatar for the icon.  I highly recommend using a visage of [dungeon master](http://www.dungeonsdragonscartoon.com/2009/08/dungeon-master.html) from the 80s D&D cartoon!
+
+
 ### Dice
 1. Add a [new slash command](https://slack.com/services/new/slash-commands) with the following settings:
   * **Command**: `/roll`
