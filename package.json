@@ -1,6 +1,6 @@
 {
   "name": "slack-dnd",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A slack integration for assisting in playing d&d",
   "main": "index.js",
   "scripts": {
