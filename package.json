@@ -1,0 +1,44 @@
+{
+  "name": "slack-dnd",
+  "version": "0.0.0",
+  "description": "A slack integration for assisting in playing d&d",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test/*js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:toddself/slack-dnd"
+  },
+  "bin": {
+    "slack-dnd": "index.js"
+  },
+  "keywords": [
+    "dnd",
+    "role",
+    "playing",
+    "dungeons",
+    "and",
+    "dragons",
+    "dungeons",
+    "dragons",
+    "dnd3e",
+    "35e",
+    "wizards",
+    "of",
+    "the",
+    "coast",
+    "role",
+    "playing"
+  ],
+  "author": "Todd Kennedy <todd@selfassembled.org>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toddself/slack-dnd/issues"
+  },
+  "homepage": "https://github.com/toddself/slack-dnd",
+  "dependencies": {
+    "minimist": "^0.1.0",
+    "tap": "^0.4.11"
+  }
+}
