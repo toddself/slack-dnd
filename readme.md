@@ -11,7 +11,7 @@ A collection of endpoints to help you play D&D in your slack chat room.
 
 ```
 npm i -g slack-dnd
-slack-dnd --host [hostname || 127.0.0.1] --port [port || 3000] --token [Your Slack integration token] --group [Group ID to restrict usage to]
+slack-dnd --host [hostname || 127.0.0.1] --port [port || 3000] --slack [mygroup.slack.com] --token [Your Slack integration token] --group [Group ID to restrict usage to]
 ```
 
 ## Slack set up
