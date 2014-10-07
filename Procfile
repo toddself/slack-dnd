@@ -1,1 +1,1 @@
-web: PORT=$PORT TOKEN=$TOKEN SLACK=$SLACK node index.js
+web: PORT=$PORT TOKEN=$TOKEN SLACK=$SLACK DOMAIN=$DOMAIN node index.js
