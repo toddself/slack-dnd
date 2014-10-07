@@ -5,6 +5,7 @@ var https = require('https');
 var url = require('url');
 var minimist = require('minimist');
 var argv;
+var port;
 var slackToken;
 var groupRestrict;
 var slackHost;
