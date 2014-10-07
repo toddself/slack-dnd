@@ -34,3 +34,10 @@ Or if you like pictures:
 
 ![webhook](/assets/slack-webhook.png)  
 
+## Running on Heroku
+
+1. Add environment variables to your app:
+	* `SLACK` = \<your Slack URL\>, e.g. `mycompany.slack.com`
+	* `TOKEN` = `<your incoming webhook token`>
+1. Push to Heroku
+1. Use the Heroku app URL for your `/roll` slash-command in Slack.

@@ -5,8 +5,7 @@ var https = require('https');
 var url = require('url');
 var minimist = require('minimist');
 var argv;
-var port = 3000;
-var host = '127.0.0.1';
+var port;
 var slackToken;
 var groupRestrict;
 var slackHost;
@@ -15,7 +14,7 @@ function rollDie(max){
   return Math.floor(Math.random() * (max - 1 + 1)) + 1;
 }
 
-function startRollServer(port, ip, slackToken, slackHost, groupRestrict){
+function startRollServer(port, slackToken, slackHost, groupRestrict){
   var server = http.createServer(function(req, res){
     var parsed = url.parse(req.url, true);
     
@@ -53,7 +52,7 @@ function startRollServer(port, ip, slackToken, slackHost, groupRestrict){
       });
 
       console.log('sending to webhook', output);
-      
+
       var post = https.request({
         host: slackHost,
         path: '/services/hooks/incoming-webhook?token='+slackToken,
@@ -69,6 +68,10 @@ function startRollServer(port, ip, slackToken, slackHost, groupRestrict){
         });
       });
 
+      post.on('error', function(e) {
+        console.log('problem with request: ' + e.message);
+      });
+
       post.write(output);
       post.end();
 
@@ -78,21 +81,20 @@ function startRollServer(port, ip, slackToken, slackHost, groupRestrict){
       res.end('nope');
     }
   });
-  server.listen(port, ip);
-  console.log('listening on', ip+':'+port)
+  server.listen(port);
+  console.log('listening on port '+port)
 }
 
 if(!module.parent){
   argv = minimist(process.argv.slice(2));
-  host = argv.host || host;
-  port = argv.port || port;
-  groupRestrict = argv.group || groupRestrict;
-  slackHost = argv.slack || slackHost;
-  slackToken = argv.token || slackToken;
+  port = argv.port || process.env.PORT;
+  groupRestrict = argv.group || process.env.GROUP || groupRestrict;
+  slackHost = argv.slack || process.env.SLACK || slackHost;
+  slackToken = argv.token || process.env.TOKEN || slackToken;
 
   if(typeof slackToken === 'undefined' || typeof slackHost === 'undefined'){
     console.log('You need a slack token and a slack hostname to continue');
   }
 
-  startRollServer(port, host, slackToken, slackHost, groupRestrict);
+  startRollServer(port, slackToken, slackHost, groupRestrict);
 }
