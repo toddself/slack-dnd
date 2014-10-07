@@ -5,8 +5,6 @@ var https = require('https');
 var url = require('url');
 var minimist = require('minimist');
 var argv;
-var port = 3000;
-var host = '127.0.0.1';
 var slackToken;
 var groupRestrict;
 var slackHost;
@@ -78,21 +76,20 @@ function startRollServer(port, ip, slackToken, slackHost, groupRestrict){
       res.end('nope');
     }
   });
-  server.listen(port, ip);
-  console.log('listening on', ip+':'+port)
+  server.listen(port);
+  // console.log('listening on', ip+':'+port)
 }
 
 if(!module.parent){
   argv = minimist(process.argv.slice(2));
-  host = argv.host || host;
-  port = argv.port || port;
+  port = process.env.PORT || port;
   groupRestrict = argv.group || groupRestrict;
-  slackHost = argv.slack || slackHost;
-  slackToken = argv.token || slackToken;
+  slackHost = process.env.SLACK || slackHost;
+  slackToken = process.env.TOKEN || slackToken;
 
   if(typeof slackToken === 'undefined' || typeof slackHost === 'undefined'){
     console.log('You need a slack token and a slack hostname to continue');
   }
 
-  startRollServer(port, host, slackToken, slackHost, groupRestrict);
+  startRollServer(port, slackToken, slackHost, groupRestrict);
 }
