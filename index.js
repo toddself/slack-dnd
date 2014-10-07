@@ -9,12 +9,13 @@ var port;
 var slackToken;
 var groupRestrict;
 var slackHost;
+var slackDomain;
 
 function rollDie(max){
   return Math.floor(Math.random() * (max - 1 + 1)) + 1;
 }
 
-function startRollServer(port, ip, slackToken, slackHost, groupRestrict){
+function startRollServer(port, slackToken, slackHost, groupRestrict){
   var server = http.createServer(function(req, res){
     var parsed = url.parse(req.url, true);
     
@@ -52,7 +53,7 @@ function startRollServer(port, ip, slackToken, slackHost, groupRestrict){
       });
 
       console.log('sending to webhook', output);
-      
+
       var post = https.request({
         host: slackHost,
         path: '/services/hooks/incoming-webhook?token='+slackToken,
