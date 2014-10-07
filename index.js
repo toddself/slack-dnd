@@ -4,7 +4,6 @@ var http = require('http');
 var https = require('https');
 var url = require('url');
 var minimist = require('minimist');
-var Slack = require('node-slack');
 var argv;
 var port;
 var slackToken;
@@ -16,7 +15,7 @@ function rollDie(max){
   return Math.floor(Math.random() * (max - 1 + 1)) + 1;
 }
 
-function startRollServer(port, ip, slackToken, slackHost, slackDomain, groupRestrict){
+function startRollServer(port, slackToken, slackHost, groupRestrict){
   var server = http.createServer(function(req, res){
     var parsed = url.parse(req.url, true);
     
@@ -53,40 +52,31 @@ function startRollServer(port, ip, slackToken, slackHost, slackDomain, groupRest
         channel: echoChannel
       });
 
-      // console.log('sending to webhook', output);
-      
-      var slack = new Slack(slackDomain,slackToken);
+      console.log('sending to webhook', output);
 
-      slack.send({
-        text: 'bot started',
-        channel: '#dnd',
-        username: 'dungeonmaster',
-        icon_emoji: ':dm:',
+      var post = https.request({
+        host: slackHost,
+        path: '/services/hooks/incoming-webhook?token='+slackToken,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': output.length
+        }
+      }, function(res){
+        res.setEncoding('utf8');
+        res.on('data', function(chunk){
+          console.log('response', chunk);
+        });
       });
 
-      // var post = https.request({
-      //   host: slackHost,
-      //   path: '/services/hooks/incoming-webhook?token='+slackToken,
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Content-Length': output.length
-      //   }
-      // }, function(res){
-      //   res.setEncoding('utf8');
-      //   res.on('data', function(chunk){
-      //     console.log('response', chunk);
-      //   });
-      // });
+      post.on('error', function(e) {
+        console.log('problem with request: ' + e.message);
+      });
 
-      // post.on('error', function(e) {
-      //   console.log('problem with request: ' + e.message);
-      // });
+      post.write(output);
+      post.end();
 
-      // post.write(output);
-      // post.end();
-
-      // res.end('');
+      res.end('');
 
     } else {
       res.end('nope');
@@ -101,12 +91,11 @@ if(!module.parent){
   port = argv.port || process.env.PORT;
   groupRestrict = argv.group || process.env.GROUP || groupRestrict;
   slackHost = argv.slack || process.env.SLACK || slackHost;
-  slackDomain = argv.domain || process.env.DOMAIN || slackDomain;
   slackToken = argv.token || process.env.TOKEN || slackToken;
 
   if(typeof slackToken === 'undefined' || typeof slackHost === 'undefined'){
     console.log('You need a slack token and a slack hostname to continue');
   }
 
-  startRollServer(port, slackToken, slackHost, slackDomain, groupRestrict);
+  startRollServer(port, slackToken, slackHost, groupRestrict);
 }
