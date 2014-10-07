@@ -68,6 +68,10 @@ function startRollServer(port, ip, slackToken, slackHost, groupRestrict){
         });
       });
 
+      post.on('error', function(e) {
+        console.log('problem with request: ' + e.message);
+      });
+
       post.write(output);
       post.end();
 
