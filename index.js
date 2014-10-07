@@ -82,15 +82,15 @@ function startRollServer(port, ip, slackToken, slackHost, groupRestrict){
     }
   });
   server.listen(port);
-  // console.log('listening on', ip+':'+port)
+  console.log('listening on port '+port)
 }
 
 if(!module.parent){
   argv = minimist(process.argv.slice(2));
-  port = process.env.PORT;
-  groupRestrict = process.env.GROUP || groupRestrict;
-  slackHost = process.env.SLACK || slackHost;
-  slackToken = process.env.TOKEN || slackToken;
+  port = argv.port || process.env.PORT;
+  groupRestrict = argv.group || process.env.GROUP || groupRestrict;
+  slackHost = argv.slack || process.env.SLACK || slackHost;
+  slackToken = argv.token || process.env.TOKEN || slackToken;
 
   if(typeof slackToken === 'undefined' || typeof slackHost === 'undefined'){
     console.log('You need a slack token and a slack hostname to continue');

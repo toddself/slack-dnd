@@ -39,6 +39,7 @@
   "homepage": "https://github.com/toddself/slack-dnd",
   "dependencies": {
     "minimist": "^0.1.0",
-    "tap": "^0.4.11"
+    "tap": "^0.4.11",
+    "node-slack": "^0.0.5"
   }
 }
