@@ -82,8 +82,8 @@ function startRollServer(port, ip, slackToken, slackHost, groupRestrict){
 
 if(!module.parent){
   argv = minimist(process.argv.slice(2));
-  port = process.env.PORT || port;
-  groupRestrict = argv.group || groupRestrict;
+  port = process.env.PORT;
+  groupRestrict = process.env.GROUP || groupRestrict;
   slackHost = process.env.SLACK || slackHost;
   slackToken = process.env.TOKEN || slackToken;
 
