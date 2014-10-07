@@ -9,7 +9,6 @@ var port;
 var slackToken;
 var groupRestrict;
 var slackHost;
-var slackDomain;
 
 function rollDie(max){
   return Math.floor(Math.random() * (max - 1 + 1)) + 1;
